@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import type { Education } from "@/types/resume";
+import { useDataClient } from "@/lib/data-client";
 
 type FormValues = Omit<Education, "id" | "order">;
 
@@ -18,6 +19,7 @@ const emptyForm: FormValues = {
 };
 
 export default function EducationPage() {
+  const client = useDataClient();
   const [entries, setEntries] = useState<Education[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -39,8 +41,7 @@ export default function EducationPage() {
   async function loadEntries() {
     setLoading(true);
     try {
-      const res = await fetch("/api/education");
-      const data: Education[] = await res.json();
+      const data = await client.education.list();
       setEntries(data);
     } catch {
       showToast("error", "Failed to load education entries.");
@@ -56,12 +57,7 @@ export default function EducationPage() {
 
   async function handleAdd(values: FormValues) {
     try {
-      const res = await fetch("/api/education", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
-      if (!res.ok) throw new Error();
+      await client.education.create(values);
       showToast("success", "Education entry added.");
       addForm.reset(emptyForm);
       setShowAddForm(false);
@@ -88,12 +84,7 @@ export default function EducationPage() {
   async function handleEdit(values: FormValues) {
     if (!editingId) return;
     try {
-      const res = await fetch(`/api/education/${editingId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
-      if (!res.ok) throw new Error();
+      await client.education.update(editingId, values);
       showToast("success", "Education entry updated.");
       setEditingId(null);
       await loadEntries();
@@ -105,8 +96,7 @@ export default function EducationPage() {
   async function handleDelete(id: string) {
     if (!window.confirm("Delete this education entry? This cannot be undone.")) return;
     try {
-      const res = await fetch(`/api/education/${id}`, { method: "DELETE" });
-      if (!res.ok) throw new Error();
+      await client.education.remove(id);
       showToast("success", "Education entry deleted.");
       await loadEntries();
     } catch {

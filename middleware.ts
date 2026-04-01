@@ -1,10 +1,7 @@
-import NextAuth from "next-auth";
-import { authConfig } from "@/lib/auth.config";
-
-export const { auth: middleware } = NextAuth(authConfig);
-
-export default middleware;
+// Auth is optional — no routes are protected.
+// Empty middleware satisfies Next.js without blocking any routes.
+export function middleware() {}
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: [], // No routes intercepted
 };

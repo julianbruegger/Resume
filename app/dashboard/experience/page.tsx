@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import type { Experience } from "@/types/resume";
+import { useDataClient } from "@/lib/data-client";
 
 type FormValues = Omit<Experience, "id" | "order">;
 
@@ -17,6 +18,7 @@ const emptyForm: FormValues = {
 };
 
 export default function ExperiencePage() {
+  const client = useDataClient();
   const [entries, setEntries] = useState<Experience[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -36,8 +38,7 @@ export default function ExperiencePage() {
   async function loadEntries() {
     setLoading(true);
     try {
-      const res = await fetch("/api/experience");
-      const data: Experience[] = await res.json();
+      const data = await client.experience.list();
       setEntries(data);
     } catch {
       showToast("error", "Failed to load experience entries.");
@@ -53,12 +54,7 @@ export default function ExperiencePage() {
 
   async function handleAdd(values: FormValues) {
     try {
-      const res = await fetch("/api/experience", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
-      if (!res.ok) throw new Error();
+      await client.experience.create(values);
       showToast("success", "Experience entry added.");
       addForm.reset(emptyForm);
       setShowAddForm(false);
@@ -84,12 +80,7 @@ export default function ExperiencePage() {
   async function handleEdit(values: FormValues) {
     if (!editingId) return;
     try {
-      const res = await fetch(`/api/experience/${editingId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
-      if (!res.ok) throw new Error();
+      await client.experience.update(editingId, values);
       showToast("success", "Experience entry updated.");
       setEditingId(null);
       await loadEntries();
@@ -101,8 +92,7 @@ export default function ExperiencePage() {
   async function handleDelete(id: string) {
     if (!window.confirm("Delete this experience entry? This cannot be undone.")) return;
     try {
-      const res = await fetch(`/api/experience/${id}`, { method: "DELETE" });
-      if (!res.ok) throw new Error();
+      await client.experience.remove(id);
       showToast("success", "Experience entry deleted.");
       await loadEntries();
     } catch {
