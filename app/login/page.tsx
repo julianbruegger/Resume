@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { signIn } from "@/lib/auth";
 
 export default function LoginPage() {
@@ -32,11 +33,11 @@ export default function LoginPage() {
 
         <hr className="w-full border-gray-200" />
 
-        {/* Sign in form */}
+        {/* GitHub sign in */}
         <form
           action={async () => {
             "use server";
-            await signIn("github");
+            await signIn("github", { redirectTo: "/dashboard" });
           }}
           className="w-full"
         >
@@ -44,7 +45,6 @@ export default function LoginPage() {
             type="submit"
             className="w-full flex items-center justify-center gap-3 bg-gray-900 hover:bg-gray-700 text-white font-medium py-3 px-5 rounded-lg transition-colors duration-200"
           >
-            {/* GitHub SVG icon */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -57,8 +57,23 @@ export default function LoginPage() {
           </button>
         </form>
 
+        <div className="flex items-center gap-3 w-full">
+          <hr className="flex-1 border-gray-200" />
+          <span className="text-xs text-gray-400">or</span>
+          <hr className="flex-1 border-gray-200" />
+        </div>
+
+        {/* Guest access */}
+        <Link
+          href="/dashboard"
+          className="w-full flex items-center justify-center gap-2 border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-3 px-5 rounded-lg transition-colors duration-200 text-sm"
+        >
+          Continue as guest
+        </Link>
+
         <p className="text-xs text-gray-400 text-center">
-          By signing in, you agree to our terms of service and privacy policy.
+          Guest data is saved in your browser only.{" "}
+          <span className="text-blue-500">Sign in</span> to sync across devices.
         </p>
       </div>
     </div>

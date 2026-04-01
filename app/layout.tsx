@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import SessionProvider from "@/components/SessionProvider";
 
 export const metadata: Metadata = {
   title: "Resume Builder",
@@ -13,7 +14,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full antialiased">
-      <body className="h-full bg-gray-50">{children}</body>
+      <body className="h-full bg-gray-50">
+        <SessionProvider>{children}</SessionProvider>
+      </body>
     </html>
   );
 }

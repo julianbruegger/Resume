@@ -1,5 +1,14 @@
 .git
+.gitignore
 .dockerignore
+.env
+.env.*
 Dockerfile
 docker-compose.yml
 README.md
+node_modules
+.next
+prisma/dev.db
+prisma/dev.db-journal
+*.db
+npm-debug.log*

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import type { Volunteering } from "@/types/resume";
+import { useDataClient } from "@/lib/data-client";
 
 type FormValues = Omit<Volunteering, "id" | "order">;
 
@@ -16,6 +17,7 @@ const emptyForm: FormValues = {
 };
 
 export default function VolunteeringPage() {
+  const client = useDataClient();
   const [entries, setEntries] = useState<Volunteering[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -35,8 +37,7 @@ export default function VolunteeringPage() {
   async function loadEntries() {
     setLoading(true);
     try {
-      const res = await fetch("/api/volunteering");
-      const data: Volunteering[] = await res.json();
+      const data = await client.volunteering.list();
       setEntries(data);
     } catch {
       showToast("error", "Failed to load volunteering entries.");
@@ -52,12 +53,7 @@ export default function VolunteeringPage() {
 
   async function handleAdd(values: FormValues) {
     try {
-      const res = await fetch("/api/volunteering", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
-      if (!res.ok) throw new Error();
+      await client.volunteering.create(values);
       showToast("success", "Volunteering entry added.");
       addForm.reset(emptyForm);
       setShowAddForm(false);
@@ -82,12 +78,7 @@ export default function VolunteeringPage() {
   async function handleEdit(values: FormValues) {
     if (!editingId) return;
     try {
-      const res = await fetch(`/api/volunteering/${editingId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
-      if (!res.ok) throw new Error();
+      await client.volunteering.update(editingId, values);
       showToast("success", "Volunteering entry updated.");
       setEditingId(null);
       await loadEntries();
@@ -99,8 +90,7 @@ export default function VolunteeringPage() {
   async function handleDelete(id: string) {
     if (!window.confirm("Delete this volunteering entry? This cannot be undone.")) return;
     try {
-      const res = await fetch(`/api/volunteering/${id}`, { method: "DELETE" });
-      if (!res.ok) throw new Error();
+      await client.volunteering.remove(id);
       showToast("success", "Volunteering entry deleted.");
       await loadEntries();
     } catch {

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import type { Certification } from "@/types/resume";
+import { useDataClient } from "@/lib/data-client";
 
 type FormValues = Omit<Certification, "id" | "order">;
 
@@ -16,6 +17,7 @@ const emptyForm: FormValues = {
 };
 
 export default function CertificationsPage() {
+  const client = useDataClient();
   const [entries, setEntries] = useState<Certification[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -32,8 +34,7 @@ export default function CertificationsPage() {
   async function loadEntries() {
     setLoading(true);
     try {
-      const res = await fetch("/api/certifications");
-      const data: Certification[] = await res.json();
+      const data = await client.certifications.list();
       setEntries(data);
     } catch {
       showToast("error", "Failed to load certifications.");
@@ -49,12 +50,7 @@ export default function CertificationsPage() {
 
   async function handleAdd(values: FormValues) {
     try {
-      const res = await fetch("/api/certifications", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
-      if (!res.ok) throw new Error();
+      await client.certifications.create(values);
       showToast("success", "Certification added.");
       addForm.reset(emptyForm);
       setShowAddForm(false);
@@ -79,12 +75,7 @@ export default function CertificationsPage() {
   async function handleEdit(values: FormValues) {
     if (!editingId) return;
     try {
-      const res = await fetch(`/api/certifications/${editingId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
-      if (!res.ok) throw new Error();
+      await client.certifications.update(editingId, values);
       showToast("success", "Certification updated.");
       setEditingId(null);
       await loadEntries();
@@ -96,8 +87,7 @@ export default function CertificationsPage() {
   async function handleDelete(id: string) {
     if (!window.confirm("Delete this certification? This cannot be undone.")) return;
     try {
-      const res = await fetch(`/api/certifications/${id}`, { method: "DELETE" });
-      if (!res.ok) throw new Error();
+      await client.certifications.remove(id);
       showToast("success", "Certification deleted.");
       await loadEntries();
     } catch {

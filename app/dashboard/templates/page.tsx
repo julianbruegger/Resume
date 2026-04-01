@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useDataClient } from "@/lib/data-client";
 
 interface TemplateOption {
   id: string;
@@ -37,6 +38,7 @@ const templates: TemplateOption[] = [
 ];
 
 export default function TemplatesPage() {
+  const client = useDataClient();
   const [selectedTemplate, setSelectedTemplate] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState<string | null>(null);
@@ -45,11 +47,9 @@ export default function TemplatesPage() {
   useEffect(() => {
     async function fetchCurrentTemplate() {
       try {
-        const res = await fetch("/api/resume");
-        if (!res.ok) throw new Error("Failed to load resume data");
-        const data = await res.json();
-        setSelectedTemplate(data.template ?? "modern");
-      } catch (err) {
+        const template = await client.resume.getTemplate();
+        setSelectedTemplate(template ?? "modern");
+      } catch {
         setError("Could not load current template.");
       } finally {
         setLoading(false);
@@ -66,16 +66,9 @@ export default function TemplatesPage() {
     setError(null);
 
     try {
-      const res = await fetch("/api/resume", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ template: templateId }),
-      });
-
-      if (!res.ok) throw new Error("Failed to save template");
-
+      await client.resume.setTemplate(templateId);
       setSelectedTemplate(templateId);
-    } catch (err) {
+    } catch {
       setError("Could not save template selection. Please try again.");
     } finally {
       setSaving(null);

@@ -3,10 +3,12 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import type { PersonalInfo } from "@/types/resume";
+import { useDataClient } from "@/lib/data-client";
 
 type FormValues = Omit<PersonalInfo, "id">;
 
 export default function PersonalPage() {
+  const client = useDataClient();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState<{ type: "success" | "error"; message: string } | null>(null);
@@ -19,8 +21,7 @@ export default function PersonalPage() {
   } = useForm<FormValues>();
 
   useEffect(() => {
-    fetch("/api/personal")
-      .then((r) => r.json())
+    client.personal.get()
       .then((data: PersonalInfo | null) => {
         if (data) {
           reset({
@@ -46,12 +47,7 @@ export default function PersonalPage() {
   async function onSubmit(values: FormValues) {
     setSaving(true);
     try {
-      const res = await fetch("/api/personal", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
-      if (!res.ok) throw new Error();
+      await client.personal.save(values);
       showToast("success", "Personal info saved successfully.");
     } catch {
       showToast("error", "Failed to save personal info.");
