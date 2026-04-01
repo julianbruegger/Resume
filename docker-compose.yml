@@ -2,4 +2,16 @@ services:
   resume:
     build: .
     ports:
-      - "6969:80"
+      - "6969:3000"
+    environment:
+      - DATABASE_URL=file:./prisma/dev.db
+      - NEXTAUTH_URL=http://localhost:6969
+      - AUTH_SECRET=${AUTH_SECRET}
+      - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
+      - GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
+    volumes:
+      - resume_db:/app/prisma
+    restart: unless-stopped
+
+volumes:
+  resume_db:
