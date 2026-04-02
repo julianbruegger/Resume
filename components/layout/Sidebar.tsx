@@ -34,7 +34,7 @@ export default function Sidebar() {
       {/* App name */}
       <div className="h-16 flex items-center px-6 border-b border-gray-200">
         <span className="text-lg font-bold text-blue-600 tracking-tight">
-          Resume Builder
+          VitaFlow
         </span>
       </div>
 
