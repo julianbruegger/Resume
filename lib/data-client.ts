@@ -22,7 +22,9 @@ import {
   guestSavePersonal,
   guestGetTemplate,
   guestSetTemplate,
+  guestGetAllData,
 } from "@/lib/guest-storage";
+import type { ResumeData } from "@/types/resume";
 
 // ── Generic section client factory ───────────────────────────────────────────
 
@@ -109,6 +111,19 @@ function makeDataClient(isGuest: boolean) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ template }),
         });
+      },
+
+      async getAll(): Promise<ResumeData> {
+        if (isGuest) return guestGetAllData();
+        const [template, personal, education, experience, certs, volunteering] = await Promise.all([
+          fetch("/api/resume").then((r) => r.json()).then((d) => d?.template ?? "modern"),
+          fetch("/api/personal").then((r) => (r.ok ? r.json() : null)),
+          fetch("/api/education").then((r) => r.json()),
+          fetch("/api/experience").then((r) => r.json()),
+          fetch("/api/certifications").then((r) => r.json()),
+          fetch("/api/volunteering").then((r) => r.json()),
+        ]);
+        return { template, personal, education, experience, certs, volunteering };
       },
     },
   };

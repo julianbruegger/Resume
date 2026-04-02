@@ -2,6 +2,7 @@ import { auth } from "@/lib/auth";
 import Sidebar from "@/components/layout/Sidebar";
 import TopBar from "@/components/layout/TopBar";
 import GuestBanner from "@/components/layout/GuestBanner";
+import DashboardMain from "@/components/layout/DashboardMain";
 
 export default async function DashboardLayout({
   children,
@@ -25,7 +26,7 @@ export default async function DashboardLayout({
       <div className="flex flex-col flex-1 overflow-hidden">
         <TopBar user={user} />
         {isGuest && <GuestBanner />}
-        <main className="flex-1 overflow-y-auto p-6">{children}</main>
+        <DashboardMain>{children}</DashboardMain>
       </div>
     </div>
   );

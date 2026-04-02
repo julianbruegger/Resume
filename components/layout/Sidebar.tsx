@@ -11,6 +11,7 @@ import {
   Heart,
   Palette,
   Download,
+  Eye,
 } from "lucide-react";
 
 const navItems = [
@@ -21,6 +22,7 @@ const navItems = [
   { href: "/dashboard/certifications", label: "Certifications", icon: Award },
   { href: "/dashboard/volunteering", label: "Volunteering", icon: Heart },
   { href: "/dashboard/templates", label: "Templates", icon: Palette },
+  { href: "/dashboard/preview", label: "Preview", icon: Eye },
   { href: "/dashboard/export", label: "Export", icon: Download },
 ];
 
