@@ -38,10 +38,10 @@ export default function PreviewPage() {
   return (
     <div className="flex flex-col h-full">
       {/* Toolbar */}
-      <div className="flex items-center justify-between px-6 py-3 bg-white border-b border-gray-200 flex-shrink-0 gap-4">
+      <div className="flex items-center justify-between px-6 py-3 bg-surface border-b border-rim flex-shrink-0 gap-4">
         <div className="flex items-center gap-3">
-          <span className="text-sm font-medium text-gray-700">Preview</span>
-          <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">
+          <span className="text-sm font-medium text-ink">Preview</span>
+          <span className="text-xs bg-raised text-ink-dim px-2 py-0.5 rounded-full">
             {templateLabel}
           </span>
         </div>
@@ -50,38 +50,38 @@ export default function PreviewPage() {
           {/* Zoom controls */}
           <button
             onClick={() => setScale((s) => Math.max(0.3, s - 0.1))}
-            className="p-1.5 rounded hover:bg-gray-100 text-gray-500"
-            title="Zoom out"
+            className="p-1.5 rounded hover:bg-raised text-ink-soft"
+            aria-label="Zoom out"
           >
             <ZoomOut className="w-4 h-4" />
           </button>
-          <span className="text-xs text-gray-500 w-10 text-center">{Math.round(scale * 100)}%</span>
+          <span className="text-xs text-ink-soft w-10 text-center">{Math.round(scale * 100)}%</span>
           <button
             onClick={() => setScale((s) => Math.min(1.2, s + 0.1))}
-            className="p-1.5 rounded hover:bg-gray-100 text-gray-500"
-            title="Zoom in"
+            className="p-1.5 rounded hover:bg-raised text-ink-soft"
+            aria-label="Zoom in"
           >
             <ZoomIn className="w-4 h-4" />
           </button>
 
-          <div className="w-px h-5 bg-gray-200 mx-1" />
+          <div className="w-px h-5 bg-rim mx-1" />
 
           {/* Refresh */}
           <button
             onClick={load}
             disabled={loading}
-            className="p-1.5 rounded hover:bg-gray-100 text-gray-500 disabled:opacity-40"
-            title="Refresh"
+            className="p-1.5 rounded hover:bg-raised text-ink-soft disabled:opacity-40"
+            aria-label="Refresh preview"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
           </button>
 
-          <div className="w-px h-5 bg-gray-200 mx-1" />
+          <div className="w-px h-5 bg-rim mx-1" />
 
           {/* Action links */}
           <Link
             href="/dashboard/templates"
-            className="flex items-center gap-1.5 text-xs font-medium text-gray-600 hover:text-blue-600 px-2 py-1.5 rounded hover:bg-gray-100 transition-colors"
+            className="flex items-center gap-1.5 text-xs font-medium text-ink-soft hover:text-brand px-2 py-1.5 rounded hover:bg-raised transition-colors"
           >
             <Palette className="w-3.5 h-3.5" />
             Change template
@@ -90,7 +90,7 @@ export default function PreviewPage() {
           {isGuest ? (
             <Link
               href="/login"
-              className="flex items-center gap-1.5 text-xs font-medium bg-gray-900 hover:bg-gray-700 text-white px-3 py-1.5 rounded transition-colors"
+              className="flex items-center gap-1.5 text-xs font-medium bg-prominent hover:bg-prominent-h text-prominent-fg px-3 py-1.5 rounded transition-colors"
             >
               <Download className="w-3.5 h-3.5" />
               Sign in to export
@@ -98,7 +98,7 @@ export default function PreviewPage() {
           ) : (
             <Link
               href="/dashboard/export"
-              className="flex items-center gap-1.5 text-xs font-medium bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded transition-colors"
+              className="flex items-center gap-1.5 text-xs font-medium bg-brand hover:bg-brand-h text-brand-fg px-3 py-1.5 rounded transition-colors"
             >
               <Download className="w-3.5 h-3.5" />
               Export
@@ -107,8 +107,8 @@ export default function PreviewPage() {
         </div>
       </div>
 
-      {/* Preview area */}
-      <div className="flex-1 overflow-auto bg-gray-300 flex items-start justify-center p-8">
+      {/* Preview area — neutral gray backdrop simulates print context */}
+      <div className="flex-1 overflow-auto bg-neutral-200 dark:bg-neutral-800 flex items-start justify-center p-8">
         {loading ? (
           <div className="flex items-center justify-center h-64">
             <div className="h-8 w-8 animate-spin rounded-full border-4 border-white border-t-transparent opacity-60" />

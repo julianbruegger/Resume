@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /c/Users/JuBr/Workspaces/Resume -maxdepth 2 -name tailwind.config.* -o -name postcss.config.*)",
+      "Bash(node:*)",
+      "Bash(find /c/Users/JuBr/Workspaces/Resume/node_modules/@tailwindcss -name *.md)",
+      "Bash(find /c/Users/JuBr/Workspaces/Resume/node_modules/tailwindcss -name CHANGELOG* -o -name README*)",
+      "Bash(dir node_modules)",
+      "Bash(powershell -c \"Get-ChildItem 'C:\\\\Users\\\\JuBr\\\\Workspaces\\\\Resume' | Select-Object Name, Length\" 2>&1)",
+      "Bash(powershell -c \"\\(Get-Content 'C:\\\\Users\\\\JuBr\\\\Workspaces\\\\Resume\\\\package-lock.json' | ConvertFrom-Json\\).packages.'node_modules/tailwindcss'.version\")"
+    ]
+  }
+}

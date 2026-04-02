@@ -1,30 +1,183 @@
 @import "tailwindcss";
 
+/* ── Enable class-based dark mode via .dark on <html> ── */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ──────────────────────────────────────────
+   Light mode design tokens
+   ────────────────────────────────────────── */
 :root {
-  --background: #f9fafb;
-  --foreground: #111827;
+  /* Surfaces */
+  --c-page:    oklch(97.5% 0.007 255);
+  --c-surface: oklch(99.5% 0.003 255);
+  --c-raised:  oklch(96.5% 0.009 255);
+
+  /* Borders */
+  --c-rim:      oklch(89%  0.012 255);
+  --c-rim-soft: oklch(93%  0.008 255);
+
+  /* Text */
+  --c-ink:      oklch(17%  0.025 255);
+  --c-ink-soft: oklch(46%  0.018 255);
+  --c-ink-dim:  oklch(63%  0.013 255);
+
+  /* Brand (primary action color — refined indigo-blue) */
+  --c-brand:     oklch(52%  0.24  255);
+  --c-brand-h:   oklch(45%  0.24  255);
+  --c-brand-dim: oklch(95.5% 0.04 255);
+  --c-brand-fg:  oklch(99%  0.005 255);
+
+  /* Prominent inverse button (dark in light, light in dark) */
+  --c-prominent:    oklch(17%  0.025 255);
+  --c-prominent-h:  oklch(28%  0.022 255);
+  --c-prominent-fg: oklch(99%  0.005 255);
+
+  /* Success */
+  --c-ok:     oklch(51%  0.17  145);
+  --c-ok-dim: oklch(95%  0.05  145);
+  --c-ok-fg:  oklch(25%  0.10  145);
+
+  /* Warning */
+  --c-warn:     oklch(65%  0.18  72);
+  --c-warn-dim: oklch(96%  0.05  72);
+  --c-warn-fg:  oklch(26%  0.10  72);
+
+  /* Error / danger */
+  --c-bad:     oklch(54%  0.22  25);
+  --c-bad-dim: oklch(96%  0.05  25);
+  --c-bad-fg:  oklch(23%  0.10  25);
+
+  /* Stat icon accent colors */
+  --c-exp:      oklch(51%  0.17  145);   /* green  – experience */
+  --c-exp-dim:  oklch(95%  0.05  145);
+  --c-cert:     oklch(65%  0.18  72);    /* amber  – certifications */
+  --c-cert-dim: oklch(96%  0.05  72);
+  --c-vol:      oklch(57%  0.21  355);   /* rose   – volunteering */
+  --c-vol-dim:  oklch(96%  0.05  355);
+  --c-tpl:      oklch(54%  0.22  295);   /* violet – templates */
+  --c-tpl-dim:  oklch(95.5% 0.04 295);
 }
 
+/* ──────────────────────────────────────────
+   Dark mode overrides
+   ────────────────────────────────────────── */
+.dark {
+  /* Surfaces */
+  --c-page:    oklch(12%   0.022 255);
+  --c-surface: oklch(16.5% 0.022 255);
+  --c-raised:  oklch(21%   0.020 255);
+
+  /* Borders */
+  --c-rim:      oklch(28%  0.020 255);
+  --c-rim-soft: oklch(24%  0.018 255);
+
+  /* Text */
+  --c-ink:      oklch(95%  0.010 255);
+  --c-ink-soft: oklch(64%  0.018 255);
+  --c-ink-dim:  oklch(48%  0.014 255);
+
+  /* Brand */
+  --c-brand:     oklch(63%  0.24  255);
+  --c-brand-h:   oklch(69%  0.24  255);
+  --c-brand-dim: oklch(20%  0.08  255);
+  --c-brand-fg:  oklch(99%  0.005 255);
+
+  /* Prominent */
+  --c-prominent:    oklch(92%  0.012 255);
+  --c-prominent-h:  oklch(85%  0.014 255);
+  --c-prominent-fg: oklch(14%  0.025 255);
+
+  /* Success */
+  --c-ok:     oklch(60%  0.17  145);
+  --c-ok-dim: oklch(17%  0.08  145);
+  --c-ok-fg:  oklch(87%  0.08  145);
+
+  /* Warning */
+  --c-warn:     oklch(72%  0.18  72);
+  --c-warn-dim: oklch(17%  0.08  72);
+  --c-warn-fg:  oklch(87%  0.08  72);
+
+  /* Error */
+  --c-bad:     oklch(64%  0.22  25);
+  --c-bad-dim: oklch(17%  0.08  25);
+  --c-bad-fg:  oklch(87%  0.08  25);
+
+  /* Accents */
+  --c-exp:      oklch(60%  0.17  145);
+  --c-exp-dim:  oklch(17%  0.08  145);
+  --c-cert:     oklch(72%  0.18  72);
+  --c-cert-dim: oklch(17%  0.08  72);
+  --c-vol:      oklch(65%  0.21  355);
+  --c-vol-dim:  oklch(18%  0.08  355);
+  --c-tpl:      oklch(65%  0.22  295);
+  --c-tpl-dim:  oklch(20%  0.08  295);
+}
+
+/* ──────────────────────────────────────────
+   Tailwind theme mapping
+   (inline = reference CSS var so dark mode cascade works)
+   ────────────────────────────────────────── */
+@theme inline {
+  --color-page:         var(--c-page);
+  --color-surface:      var(--c-surface);
+  --color-raised:       var(--c-raised);
+  --color-rim:          var(--c-rim);
+  --color-rim-soft:     var(--c-rim-soft);
+  --color-ink:          var(--c-ink);
+  --color-ink-soft:     var(--c-ink-soft);
+  --color-ink-dim:      var(--c-ink-dim);
+  --color-brand:        var(--c-brand);
+  --color-brand-h:      var(--c-brand-h);
+  --color-brand-dim:    var(--c-brand-dim);
+  --color-brand-fg:     var(--c-brand-fg);
+  --color-prominent:    var(--c-prominent);
+  --color-prominent-h:  var(--c-prominent-h);
+  --color-prominent-fg: var(--c-prominent-fg);
+  --color-ok:           var(--c-ok);
+  --color-ok-dim:       var(--c-ok-dim);
+  --color-ok-fg:        var(--c-ok-fg);
+  --color-warn:         var(--c-warn);
+  --color-warn-dim:     var(--c-warn-dim);
+  --color-warn-fg:      var(--c-warn-fg);
+  --color-bad:          var(--c-bad);
+  --color-bad-dim:      var(--c-bad-dim);
+  --color-bad-fg:       var(--c-bad-fg);
+  --color-exp:          var(--c-exp);
+  --color-exp-dim:      var(--c-exp-dim);
+  --color-cert:         var(--c-cert);
+  --color-cert-dim:     var(--c-cert-dim);
+  --color-vol:          var(--c-vol);
+  --color-vol-dim:      var(--c-vol-dim);
+  --color-tpl:          var(--c-tpl);
+  --color-tpl-dim:      var(--c-tpl-dim);
+}
+
+/* ──────────────────────────────────────────
+   Base styles
+   ────────────────────────────────────────── */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--c-page);
+  color: var(--c-ink);
+  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif);
 }
 
 html {
   scroll-behavior: smooth;
 }
 
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #f1f5f9;
-}
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+/* Global focus-visible — brand ring */
+*:focus-visible {
+  outline: 2px solid var(--c-brand);
+  outline-offset: 2px;
   border-radius: 3px;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
-}
+
+/* Scrollbar — webkit */
+::-webkit-scrollbar        { width: 6px; height: 6px; }
+::-webkit-scrollbar-track  { background: transparent; }
+::-webkit-scrollbar-thumb  { background: var(--c-rim); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--c-ink-dim); }
+
+/* Scrollbar — Firefox */
+* { scrollbar-width: thin; scrollbar-color: var(--c-rim) transparent; }

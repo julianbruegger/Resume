@@ -78,14 +78,14 @@ export default function TemplatesPage() {
   return (
     <div className="max-w-4xl mx-auto px-6 py-10">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Choose a Template</h1>
-        <p className="mt-1 text-sm text-gray-500">
+        <h1 className="text-2xl font-bold text-ink">Choose a Template</h1>
+        <p className="mt-1 text-sm text-ink-soft">
           Select the design that best represents you. Your content stays the same.
         </p>
       </div>
 
       {error && (
-        <div className="mb-6 rounded-md bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
+        <div className="mb-6 rounded-md bg-bad-dim border border-bad/20 px-4 py-3 text-sm text-bad">
           {error}
         </div>
       )}
@@ -95,13 +95,13 @@ export default function TemplatesPage() {
           {[1, 2, 3, 4].map((i) => (
             <div
               key={i}
-              className="rounded-xl border border-gray-200 overflow-hidden animate-pulse"
+              className="rounded-xl border border-rim overflow-hidden animate-pulse"
             >
-              <div className="h-36 bg-gray-200" />
+              <div className="h-36 bg-raised" />
               <div className="p-4 space-y-2">
-                <div className="h-4 w-24 bg-gray-200 rounded" />
-                <div className="h-3 w-40 bg-gray-100 rounded" />
-                <div className="h-8 w-20 bg-gray-200 rounded mt-3" />
+                <div className="h-4 w-24 bg-raised rounded" />
+                <div className="h-3 w-40 bg-rim-soft rounded" />
+                <div className="h-8 w-20 bg-raised rounded mt-3" />
               </div>
             </div>
           ))}
@@ -117,19 +117,20 @@ export default function TemplatesPage() {
                 key={tmpl.id}
                 className={`relative rounded-xl border-2 overflow-hidden transition-shadow ${
                   isSelected
-                    ? "border-blue-600 shadow-md"
-                    : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
+                    ? "border-brand shadow-md"
+                    : "border-rim hover:border-ink-dim hover:shadow-sm"
                 }`}
               >
                 {/* Selected badge */}
                 {isSelected && (
-                  <div className="absolute top-3 right-3 z-10 flex items-center gap-1 rounded-full bg-blue-600 px-2.5 py-0.5 text-xs font-semibold text-white shadow">
+                  <div className="absolute top-3 right-3 z-10 flex items-center gap-1 rounded-full bg-brand px-2.5 py-0.5 text-xs font-semibold text-brand-fg shadow">
                     <svg
                       className="w-3 h-3"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
                       strokeWidth={3}
+                      aria-hidden="true"
                     >
                       <path
                         strokeLinecap="round"
@@ -141,7 +142,7 @@ export default function TemplatesPage() {
                   </div>
                 )}
 
-                {/* Mini preview */}
+                {/* Mini preview — uses template's own brand color, not UI tokens */}
                 <div className={`h-36 w-full ${tmpl.color} flex items-end px-4 pb-3`}>
                   <div className="space-y-1 w-full">
                     <div className="h-2.5 w-2/5 rounded bg-white opacity-90" />
@@ -151,21 +152,22 @@ export default function TemplatesPage() {
                 </div>
 
                 {/* Card body */}
-                <div className="p-4 bg-white">
-                  <h2 className="text-base font-semibold text-gray-900">
+                <div className="p-4 bg-surface">
+                  <h2 className="text-base font-semibold text-ink">
                     {tmpl.name}
                   </h2>
-                  <p className="mt-0.5 text-sm text-gray-500">{tmpl.description}</p>
+                  <p className="mt-0.5 text-sm text-ink-soft">{tmpl.description}</p>
 
                   <div className="mt-4">
                     {isSelected ? (
-                      <span className="inline-flex items-center gap-1.5 rounded-md bg-blue-50 px-3 py-1.5 text-sm font-medium text-blue-700 border border-blue-200">
+                      <span className="inline-flex items-center gap-1.5 rounded-md bg-brand-dim px-3 py-1.5 text-sm font-medium text-brand border border-brand/20">
                         <svg
                           className="w-3.5 h-3.5"
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
                           strokeWidth={2.5}
+                          aria-hidden="true"
                         >
                           <path
                             strokeLinecap="round"
@@ -179,7 +181,7 @@ export default function TemplatesPage() {
                       <button
                         onClick={() => handleSelect(tmpl.id)}
                         disabled={!!saving}
-                        className="rounded-md bg-gray-900 px-4 py-1.5 text-sm font-medium text-white hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        className="rounded-md bg-prominent px-4 py-1.5 text-sm font-medium text-prominent-fg hover:bg-prominent-h disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                       >
                         {isSaving ? "Saving…" : "Select"}
                       </button>
