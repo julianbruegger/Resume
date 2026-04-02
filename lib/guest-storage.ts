@@ -10,7 +10,7 @@ function uid(): string {
 }
 
 function getKey(section: string): string {
-  return `resume_builder_${section}`;
+  return `vitaflow_${section}`;
 }
 
 function loadList<T>(section: string): T[] {

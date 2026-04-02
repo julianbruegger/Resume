@@ -3,8 +3,8 @@ import "./globals.css";
 import SessionProvider from "@/components/SessionProvider";
 
 export const metadata: Metadata = {
-  title: "Resume Builder",
-  description: "Build and export your professional resume",
+  title: "VitaFlow",
+  description: "Build and export your professional resume with VitaFlow",
 };
 
 export default function RootLayout({
