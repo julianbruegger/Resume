@@ -110,8 +110,8 @@ export default function VolunteeringPage() {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Volunteering</h1>
-          <p className="mt-1 text-sm text-gray-500">
+          <h1 className="text-2xl font-bold text-ink">Volunteering</h1>
+          <p className="mt-1 text-sm text-ink-soft">
             Showcase your community involvement and volunteer work.
           </p>
         </div>
@@ -122,7 +122,7 @@ export default function VolunteeringPage() {
               setShowAddForm(true);
               setEditingId(null);
             }}
-            className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="rounded-md bg-brand px-4 py-2 text-sm font-medium text-brand-fg shadow-sm hover:bg-brand-h focus:ring-2 focus:ring-brand focus:ring-offset-2"
           >
             + Add Volunteering
           </button>
@@ -132,10 +132,12 @@ export default function VolunteeringPage() {
       {/* Toast */}
       {toast && (
         <div
+          role={toast.type === "error" ? "alert" : "status"}
+          aria-live={toast.type === "error" ? "assertive" : "polite"}
           className={`mb-4 rounded-md px-4 py-3 text-sm font-medium ${
             toast.type === "success"
-              ? "bg-green-50 text-green-800 border border-green-200"
-              : "bg-red-50 text-red-800 border border-red-200"
+              ? "bg-ok-dim text-ok-fg border border-ok/20"
+              : "bg-bad-dim text-bad-fg border border-bad/20"
           }`}
         >
           {toast.message}
@@ -145,17 +147,17 @@ export default function VolunteeringPage() {
       {/* Loading */}
       {loading ? (
         <div className="flex items-center justify-center py-16">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-500 border-t-transparent" />
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-brand border-t-transparent" />
         </div>
       ) : (
         <div className="space-y-4">
           {/* Empty state */}
           {entries.length === 0 && !showAddForm && (
-            <div className="rounded-lg border-2 border-dashed border-gray-200 p-10 text-center">
-              <p className="text-sm text-gray-500">No volunteering entries yet.</p>
+            <div className="rounded-lg border-2 border-dashed border-rim p-10 text-center">
+              <p className="text-sm text-ink-soft">No volunteering entries yet.</p>
               <button
                 onClick={() => setShowAddForm(true)}
-                className="mt-3 text-sm font-medium text-blue-600 hover:underline"
+                className="mt-3 text-sm font-medium text-brand hover:underline"
               >
                 Add your first volunteering entry
               </button>
@@ -166,8 +168,8 @@ export default function VolunteeringPage() {
           {entries.map((entry) => (
             <div key={entry.id}>
               {editingId === entry.id ? (
-                <div className="bg-white rounded-lg shadow-sm border border-blue-300 p-5">
-                  <h3 className="text-sm font-semibold text-gray-700 mb-4">Edit Volunteering</h3>
+                <div className="bg-surface rounded-lg shadow-sm border border-brand p-5">
+                  <h3 className="text-sm font-semibold text-ink-soft mb-4">Edit Volunteering</h3>
                   <VolunteeringForm
                     form={editForm}
                     currentChecked={editCurrent}
@@ -177,25 +179,25 @@ export default function VolunteeringPage() {
                   />
                 </div>
               ) : (
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                <div className="bg-surface rounded-lg shadow-sm border border-rim p-4">
                   <div className="flex items-start justify-between gap-4">
                     <div className="min-w-0">
-                      <p className="font-semibold text-gray-900 truncate">{entry.role}</p>
-                      <p className="text-sm text-gray-600">{entry.organization}</p>
+                      <p className="font-semibold text-ink truncate">{entry.role}</p>
+                      <p className="text-sm text-ink-soft">{entry.organization}</p>
                       {formatDateRange(entry) && (
-                        <p className="text-xs text-gray-400 mt-0.5">{formatDateRange(entry)}</p>
+                        <p className="text-xs text-ink-dim mt-0.5">{formatDateRange(entry)}</p>
                       )}
                     </div>
                     <div className="flex shrink-0 gap-2">
                       <button
                         onClick={() => startEdit(entry)}
-                        className="rounded-md border border-gray-300 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50"
+                        className="rounded-md border border-rim bg-surface px-3 py-1.5 text-xs font-medium text-ink-soft hover:bg-raised"
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => handleDelete(entry.id)}
-                        className="rounded-md border border-red-200 bg-white px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50"
+                        className="rounded-md border border-bad/20 bg-surface px-3 py-1.5 text-xs font-medium text-bad hover:bg-bad-dim"
                       >
                         Delete
                       </button>
@@ -208,8 +210,8 @@ export default function VolunteeringPage() {
 
           {/* Add form */}
           {showAddForm && (
-            <div className="bg-white rounded-lg shadow-sm border border-blue-300 p-5">
-              <h3 className="text-sm font-semibold text-gray-700 mb-4">Add Volunteering</h3>
+            <div className="bg-surface rounded-lg shadow-sm border border-brand p-5">
+              <h3 className="text-sm font-semibold text-ink-soft mb-4">Add Volunteering</h3>
               <VolunteeringForm
                 form={addForm}
                 currentChecked={addCurrent}
@@ -256,31 +258,31 @@ function VolunteeringForm({
       {/* Organization & Role */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Organization <span className="text-red-500">*</span>
+          <label className="block text-sm font-medium text-ink-soft mb-1">
+            Organization <span className="text-bad">*</span>
           </label>
           <input
             {...register("organization", { required: "Organization is required" })}
             type="text"
             placeholder="Red Cross"
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="w-full rounded-md border border-rim bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-dim shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
           />
           {errors.organization && (
-            <p className="mt-1 text-xs text-red-600">{errors.organization.message}</p>
+            <p className="mt-1 text-xs text-bad">{errors.organization.message}</p>
           )}
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Role / Title <span className="text-red-500">*</span>
+          <label className="block text-sm font-medium text-ink-soft mb-1">
+            Role / Title <span className="text-bad">*</span>
           </label>
           <input
             {...register("role", { required: "Role is required" })}
             type="text"
             placeholder="Event Coordinator"
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="w-full rounded-md border border-rim bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-dim shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
           />
           {errors.role && (
-            <p className="mt-1 text-xs text-red-600">{errors.role.message}</p>
+            <p className="mt-1 text-xs text-bad">{errors.role.message}</p>
           )}
         </div>
       </div>
@@ -288,22 +290,22 @@ function VolunteeringForm({
       {/* Dates */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+          <label className="block text-sm font-medium text-ink-soft mb-1">Start Date</label>
           <input
             {...register("startDate")}
             type="text"
             placeholder="YYYY-MM"
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="w-full rounded-md border border-rim bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-dim shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">End Date</label>
+          <label className="block text-sm font-medium text-ink-soft mb-1">End Date</label>
           <input
             {...register("endDate")}
             type="text"
             placeholder="YYYY-MM"
             disabled={currentChecked}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:bg-gray-50 disabled:text-gray-400"
+            className="w-full rounded-md border border-rim bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-dim shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand disabled:bg-raised disabled:text-ink-dim"
           />
         </div>
       </div>
@@ -314,21 +316,21 @@ function VolunteeringForm({
           {...register("current")}
           id="vol-current"
           type="checkbox"
-          className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+          className="h-4 w-4 rounded border-rim text-brand focus:ring-brand"
         />
-        <label htmlFor="vol-current" className="text-sm text-gray-700">
+        <label htmlFor="vol-current" className="text-sm text-ink-soft">
           Currently volunteering here
         </label>
       </div>
 
       {/* Description */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+        <label className="block text-sm font-medium text-ink-soft mb-1">Description</label>
         <textarea
           {...register("description")}
           rows={4}
           placeholder="Describe your responsibilities and impact..."
-          className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 resize-y"
+          className="w-full rounded-md border border-rim bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-dim shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand resize-y"
         />
       </div>
 
@@ -337,17 +339,17 @@ function VolunteeringForm({
         <button
           type="button"
           onClick={onCancel}
-          className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          className="rounded-md border border-rim bg-surface px-4 py-2 text-sm font-medium text-ink-soft hover:bg-raised"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={isSubmitting}
-          className="inline-flex items-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 disabled:opacity-60"
+          className="inline-flex items-center gap-2 rounded-md bg-brand px-4 py-2 text-sm font-medium text-brand-fg shadow-sm hover:bg-brand-h disabled:opacity-60"
         >
           {isSubmitting && (
-            <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+            <span className="h-4 w-4 animate-spin rounded-full border-2 border-brand-fg border-t-transparent" />
           )}
           {submitLabel}
         </button>

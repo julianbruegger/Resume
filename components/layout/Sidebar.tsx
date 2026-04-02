@@ -30,10 +30,10 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 h-full bg-white border-r border-gray-200 flex flex-col flex-shrink-0">
+    <aside className="w-64 h-full bg-surface border-r border-rim flex flex-col flex-shrink-0">
       {/* App name */}
-      <div className="h-16 flex items-center px-6 border-b border-gray-200">
-        <span className="text-lg font-bold text-blue-600 tracking-tight">
+      <div className="h-16 flex items-center px-6 border-b border-rim">
+        <span className="text-lg font-bold text-brand tracking-tight">
           VitaFlow
         </span>
       </div>
@@ -52,10 +52,11 @@ export default function Sidebar() {
               <li key={href}>
                 <Link
                   href={href}
+                  aria-current={isActive ? "page" : undefined}
                   className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 ${
                     isActive
-                      ? "bg-blue-600 text-white"
-                      : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                      ? "bg-brand text-brand-fg"
+                      : "text-ink-soft hover:bg-brand-dim hover:text-ink"
                   }`}
                 >
                   <Icon className="h-4 w-4 flex-shrink-0" />

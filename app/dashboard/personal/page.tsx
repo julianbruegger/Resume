@@ -60,8 +60,8 @@ export default function PersonalPage() {
     <div className="max-w-2xl mx-auto py-8 px-4">
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Personal Information</h1>
-        <p className="mt-1 text-sm text-gray-500">
+        <h1 className="text-2xl font-bold text-ink">Personal Information</h1>
+        <p className="mt-1 text-sm text-ink-soft">
           Update your contact details and professional summary shown on your resume.
         </p>
       </div>
@@ -69,10 +69,12 @@ export default function PersonalPage() {
       {/* Toast */}
       {toast && (
         <div
+          role={toast.type === "error" ? "alert" : "status"}
+          aria-live={toast.type === "error" ? "assertive" : "polite"}
           className={`mb-4 rounded-md px-4 py-3 text-sm font-medium ${
             toast.type === "success"
-              ? "bg-green-50 text-green-800 border border-green-200"
-              : "bg-red-50 text-red-800 border border-red-200"
+              ? "bg-ok-dim text-ok-fg border border-ok/20"
+              : "bg-bad-dim text-bad-fg border border-bad/20"
           }`}
         >
           {toast.message}
@@ -81,31 +83,31 @@ export default function PersonalPage() {
 
       {loading ? (
         <div className="flex items-center justify-center py-16">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-500 border-t-transparent" />
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-brand border-t-transparent" />
         </div>
       ) : (
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div className="bg-surface rounded-lg shadow-sm border border-rim p-6">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             {/* Full Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Full Name <span className="text-red-500">*</span>
+              <label className="block text-sm font-medium text-ink-soft mb-1">
+                Full Name <span className="text-bad">*</span>
               </label>
               <input
                 {...register("fullName", { required: "Full name is required" })}
                 type="text"
                 placeholder="Jane Doe"
-                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="w-full rounded-md border border-rim bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-dim shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
               />
               {errors.fullName && (
-                <p className="mt-1 text-xs text-red-600">{errors.fullName.message}</p>
+                <p className="mt-1 text-xs text-bad">{errors.fullName.message}</p>
               )}
             </div>
 
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Email <span className="text-red-500">*</span>
+              <label className="block text-sm font-medium text-ink-soft mb-1">
+                Email <span className="text-bad">*</span>
               </label>
               <input
                 {...register("email", {
@@ -114,31 +116,31 @@ export default function PersonalPage() {
                 })}
                 type="email"
                 placeholder="jane@example.com"
-                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="w-full rounded-md border border-rim bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-dim shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
               />
               {errors.email && (
-                <p className="mt-1 text-xs text-red-600">{errors.email.message}</p>
+                <p className="mt-1 text-xs text-bad">{errors.email.message}</p>
               )}
             </div>
 
             {/* Phone & Location */}
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                <label className="block text-sm font-medium text-ink-soft mb-1">Phone</label>
                 <input
                   {...register("phone")}
                   type="tel"
                   placeholder="+1 (555) 000-0000"
-                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="w-full rounded-md border border-rim bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-dim shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                <label className="block text-sm font-medium text-ink-soft mb-1">Location</label>
                 <input
                   {...register("location")}
                   type="text"
                   placeholder="San Francisco, CA"
-                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="w-full rounded-md border border-rim bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-dim shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
                 />
               </div>
             </div>
@@ -146,37 +148,37 @@ export default function PersonalPage() {
             {/* Website & LinkedIn */}
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Website</label>
+                <label className="block text-sm font-medium text-ink-soft mb-1">Website</label>
                 <input
                   {...register("website")}
                   type="url"
                   placeholder="https://janedoe.dev"
-                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="w-full rounded-md border border-rim bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-dim shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-ink-soft mb-1">
                   LinkedIn URL
                 </label>
                 <input
                   {...register("linkedin")}
                   type="url"
                   placeholder="https://linkedin.com/in/janedoe"
-                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="w-full rounded-md border border-rim bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-dim shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
                 />
               </div>
             </div>
 
             {/* Summary */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-ink-soft mb-1">
                 Professional Summary
               </label>
               <textarea
                 {...register("summary")}
                 rows={5}
                 placeholder="Write a brief summary of your professional background and goals..."
-                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 resize-y"
+                className="w-full rounded-md border border-rim bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-dim shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand resize-y"
               />
             </div>
 
@@ -185,10 +187,10 @@ export default function PersonalPage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="inline-flex items-center gap-2 rounded-md bg-blue-600 px-5 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 disabled:opacity-60 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                className="inline-flex items-center gap-2 rounded-md bg-brand px-5 py-2 text-sm font-medium text-brand-fg shadow-sm hover:bg-brand-h disabled:opacity-60 focus:ring-2 focus:ring-brand focus:ring-offset-2"
               >
                 {saving && (
-                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-brand-fg border-t-transparent" />
                 )}
                 {saving ? "Saving…" : "Save Changes"}
               </button>

@@ -100,8 +100,8 @@ export default function CertificationsPage() {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Certifications</h1>
-          <p className="mt-1 text-sm text-gray-500">
+          <h1 className="text-2xl font-bold text-ink">Certifications</h1>
+          <p className="mt-1 text-sm text-ink-soft">
             Add professional certifications, licenses, and credentials.
           </p>
         </div>
@@ -112,7 +112,7 @@ export default function CertificationsPage() {
               setShowAddForm(true);
               setEditingId(null);
             }}
-            className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="rounded-md bg-brand px-4 py-2 text-sm font-medium text-brand-fg shadow-sm hover:bg-brand-h focus:ring-2 focus:ring-brand focus:ring-offset-2"
           >
             + Add Certification
           </button>
@@ -122,10 +122,12 @@ export default function CertificationsPage() {
       {/* Toast */}
       {toast && (
         <div
+          role={toast.type === "error" ? "alert" : "status"}
+          aria-live={toast.type === "error" ? "assertive" : "polite"}
           className={`mb-4 rounded-md px-4 py-3 text-sm font-medium ${
             toast.type === "success"
-              ? "bg-green-50 text-green-800 border border-green-200"
-              : "bg-red-50 text-red-800 border border-red-200"
+              ? "bg-ok-dim text-ok-fg border border-ok/20"
+              : "bg-bad-dim text-bad-fg border border-bad/20"
           }`}
         >
           {toast.message}
@@ -135,17 +137,17 @@ export default function CertificationsPage() {
       {/* Loading */}
       {loading ? (
         <div className="flex items-center justify-center py-16">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-500 border-t-transparent" />
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-brand border-t-transparent" />
         </div>
       ) : (
         <div className="space-y-4">
           {/* Empty state */}
           {entries.length === 0 && !showAddForm && (
-            <div className="rounded-lg border-2 border-dashed border-gray-200 p-10 text-center">
-              <p className="text-sm text-gray-500">No certifications yet.</p>
+            <div className="rounded-lg border-2 border-dashed border-rim p-10 text-center">
+              <p className="text-sm text-ink-soft">No certifications yet.</p>
               <button
                 onClick={() => setShowAddForm(true)}
-                className="mt-3 text-sm font-medium text-blue-600 hover:underline"
+                className="mt-3 text-sm font-medium text-brand hover:underline"
               >
                 Add your first certification
               </button>
@@ -156,8 +158,8 @@ export default function CertificationsPage() {
           {entries.map((entry) => (
             <div key={entry.id}>
               {editingId === entry.id ? (
-                <div className="bg-white rounded-lg shadow-sm border border-blue-300 p-5">
-                  <h3 className="text-sm font-semibold text-gray-700 mb-4">Edit Certification</h3>
+                <div className="bg-surface rounded-lg shadow-sm border border-brand p-5">
+                  <h3 className="text-sm font-semibold text-ink-soft mb-4">Edit Certification</h3>
                   <CertificationForm
                     form={editForm}
                     onSubmit={editForm.handleSubmit(handleEdit)}
@@ -166,23 +168,23 @@ export default function CertificationsPage() {
                   />
                 </div>
               ) : (
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                <div className="bg-surface rounded-lg shadow-sm border border-rim p-4">
                   <div className="flex items-start justify-between gap-4">
                     <div className="min-w-0">
-                      <p className="font-semibold text-gray-900 truncate">{entry.name}</p>
+                      <p className="font-semibold text-ink truncate">{entry.name}</p>
                       {entry.issuer && (
-                        <p className="text-sm text-gray-600">{entry.issuer}</p>
+                        <p className="text-sm text-ink-soft">{entry.issuer}</p>
                       )}
                       <div className="flex flex-wrap gap-x-3 mt-0.5">
                         {entry.issueDate && (
-                          <p className="text-xs text-gray-400">Issued: {entry.issueDate}</p>
+                          <p className="text-xs text-ink-dim">Issued: {entry.issueDate}</p>
                         )}
                         {entry.expiryDate && (
-                          <p className="text-xs text-gray-400">Expires: {entry.expiryDate}</p>
+                          <p className="text-xs text-ink-dim">Expires: {entry.expiryDate}</p>
                         )}
                       </div>
                       {entry.credentialId && (
-                        <p className="text-xs text-gray-500 mt-0.5">
+                        <p className="text-xs text-ink-soft mt-0.5">
                           ID: {entry.credentialId}
                         </p>
                       )}
@@ -191,7 +193,7 @@ export default function CertificationsPage() {
                           href={entry.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-xs text-blue-600 hover:underline mt-0.5 inline-block"
+                          className="text-xs text-brand hover:underline mt-0.5 inline-block"
                         >
                           View credential
                         </a>
@@ -200,13 +202,13 @@ export default function CertificationsPage() {
                     <div className="flex shrink-0 gap-2">
                       <button
                         onClick={() => startEdit(entry)}
-                        className="rounded-md border border-gray-300 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50"
+                        className="rounded-md border border-rim bg-surface px-3 py-1.5 text-xs font-medium text-ink-soft hover:bg-raised"
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => handleDelete(entry.id)}
-                        className="rounded-md border border-red-200 bg-white px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50"
+                        className="rounded-md border border-bad/20 bg-surface px-3 py-1.5 text-xs font-medium text-bad hover:bg-bad-dim"
                       >
                         Delete
                       </button>
@@ -219,8 +221,8 @@ export default function CertificationsPage() {
 
           {/* Add form */}
           {showAddForm && (
-            <div className="bg-white rounded-lg shadow-sm border border-blue-300 p-5">
-              <h3 className="text-sm font-semibold text-gray-700 mb-4">Add Certification</h3>
+            <div className="bg-surface rounded-lg shadow-sm border border-brand p-5">
+              <h3 className="text-sm font-semibold text-ink-soft mb-4">Add Certification</h3>
               <CertificationForm
                 form={addForm}
                 onSubmit={addForm.handleSubmit(handleAdd)}
@@ -258,72 +260,72 @@ function CertificationForm({ form, onSubmit, onCancel, submitLabel }: Certificat
     <form onSubmit={onSubmit} className="space-y-4">
       {/* Certification Name */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Certification Name <span className="text-red-500">*</span>
+        <label className="block text-sm font-medium text-ink-soft mb-1">
+          Certification Name <span className="text-bad">*</span>
         </label>
         <input
           {...register("name", { required: "Certification name is required" })}
           type="text"
           placeholder="AWS Certified Solutions Architect"
-          className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          className="w-full rounded-md border border-rim bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-dim shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
         />
-        {errors.name && <p className="mt-1 text-xs text-red-600">{errors.name.message}</p>}
+        {errors.name && <p className="mt-1 text-xs text-bad">{errors.name.message}</p>}
       </div>
 
       {/* Issuing Organization */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-ink-soft mb-1">
           Issuing Organization
         </label>
         <input
           {...register("issuer")}
           type="text"
           placeholder="Amazon Web Services"
-          className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          className="w-full rounded-md border border-rim bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-dim shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
         />
       </div>
 
       {/* Issue Date & Expiry Date */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Issue Date</label>
+          <label className="block text-sm font-medium text-ink-soft mb-1">Issue Date</label>
           <input
             {...register("issueDate")}
             type="text"
             placeholder="YYYY-MM"
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="w-full rounded-md border border-rim bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-dim shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Expiry Date</label>
+          <label className="block text-sm font-medium text-ink-soft mb-1">Expiry Date</label>
           <input
             {...register("expiryDate")}
             type="text"
             placeholder="YYYY-MM"
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="w-full rounded-md border border-rim bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-dim shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
           />
         </div>
       </div>
 
       {/* Credential ID */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Credential ID</label>
+        <label className="block text-sm font-medium text-ink-soft mb-1">Credential ID</label>
         <input
           {...register("credentialId")}
           type="text"
           placeholder="ABC123XYZ"
-          className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          className="w-full rounded-md border border-rim bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-dim shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
         />
       </div>
 
       {/* Credential URL */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Credential URL</label>
+        <label className="block text-sm font-medium text-ink-soft mb-1">Credential URL</label>
         <input
           {...register("url")}
           type="url"
           placeholder="https://verify.example.com/cert/ABC123"
-          className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          className="w-full rounded-md border border-rim bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-dim shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
         />
       </div>
 
@@ -332,17 +334,17 @@ function CertificationForm({ form, onSubmit, onCancel, submitLabel }: Certificat
         <button
           type="button"
           onClick={onCancel}
-          className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          className="rounded-md border border-rim bg-surface px-4 py-2 text-sm font-medium text-ink-soft hover:bg-raised"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={isSubmitting}
-          className="inline-flex items-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 disabled:opacity-60"
+          className="inline-flex items-center gap-2 rounded-md bg-brand px-4 py-2 text-sm font-medium text-brand-fg shadow-sm hover:bg-brand-h disabled:opacity-60"
         >
           {isSubmitting && (
-            <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+            <span className="h-4 w-4 animate-spin rounded-full border-2 border-brand-fg border-t-transparent" />
           )}
           {submitLabel}
         </button>

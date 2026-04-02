@@ -26,11 +26,9 @@ export default function EducationPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [toast, setToast] = useState<{ type: "success" | "error"; message: string } | null>(null);
 
-  // Add form
   const addForm = useForm<FormValues>({ defaultValues: emptyForm });
   const addCurrent = addForm.watch("current");
 
-  // Edit form
   const editForm = useForm<FormValues>({ defaultValues: emptyForm });
   const editCurrent = editForm.watch("current");
 
@@ -116,8 +114,8 @@ export default function EducationPage() {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Education</h1>
-          <p className="mt-1 text-sm text-gray-500">
+          <h1 className="text-2xl font-bold text-ink">Education</h1>
+          <p className="mt-1 text-sm text-ink-soft">
             Add your academic background, degrees, and certifications.
           </p>
         </div>
@@ -128,7 +126,7 @@ export default function EducationPage() {
               setShowAddForm(true);
               setEditingId(null);
             }}
-            className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="rounded-md bg-brand px-4 py-2 text-sm font-medium text-brand-fg shadow-sm hover:bg-brand-h focus:ring-2 focus:ring-brand focus:ring-offset-2"
           >
             + Add Education
           </button>
@@ -138,10 +136,12 @@ export default function EducationPage() {
       {/* Toast */}
       {toast && (
         <div
+          role={toast.type === "error" ? "alert" : "status"}
+          aria-live={toast.type === "error" ? "assertive" : "polite"}
           className={`mb-4 rounded-md px-4 py-3 text-sm font-medium ${
             toast.type === "success"
-              ? "bg-green-50 text-green-800 border border-green-200"
-              : "bg-red-50 text-red-800 border border-red-200"
+              ? "bg-ok-dim text-ok-fg border border-ok/20"
+              : "bg-bad-dim text-bad-fg border border-bad/20"
           }`}
         >
           {toast.message}
@@ -151,17 +151,17 @@ export default function EducationPage() {
       {/* Loading */}
       {loading ? (
         <div className="flex items-center justify-center py-16">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-500 border-t-transparent" />
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-brand border-t-transparent" />
         </div>
       ) : (
         <div className="space-y-4">
           {/* Empty state */}
           {entries.length === 0 && !showAddForm && (
-            <div className="rounded-lg border-2 border-dashed border-gray-200 p-10 text-center">
-              <p className="text-sm text-gray-500">No education entries yet.</p>
+            <div className="rounded-lg border-2 border-dashed border-rim p-10 text-center">
+              <p className="text-sm text-ink-soft">No education entries yet.</p>
               <button
                 onClick={() => setShowAddForm(true)}
-                className="mt-3 text-sm font-medium text-blue-600 hover:underline"
+                className="mt-3 text-sm font-medium text-brand hover:underline"
               >
                 Add your first education entry
               </button>
@@ -172,8 +172,8 @@ export default function EducationPage() {
           {entries.map((entry) => (
             <div key={entry.id}>
               {editingId === entry.id ? (
-                <div className="bg-white rounded-lg shadow-sm border border-blue-300 p-5">
-                  <h3 className="text-sm font-semibold text-gray-700 mb-4">Edit Education</h3>
+                <div className="bg-surface rounded-lg shadow-sm border border-brand p-5">
+                  <h3 className="text-sm font-semibold text-ink-soft mb-4">Edit Education</h3>
                   <EducationForm
                     form={editForm}
                     currentChecked={editCurrent}
@@ -183,32 +183,32 @@ export default function EducationPage() {
                   />
                 </div>
               ) : (
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                <div className="bg-surface rounded-lg shadow-sm border border-rim p-4">
                   <div className="flex items-start justify-between gap-4">
                     <div className="min-w-0">
-                      <p className="font-semibold text-gray-900 truncate">{entry.school}</p>
+                      <p className="font-semibold text-ink truncate">{entry.school}</p>
                       {(entry.degree || entry.field) && (
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-ink-soft">
                           {[entry.degree, entry.field].filter(Boolean).join(", ")}
                         </p>
                       )}
                       {formatDateRange(entry) && (
-                        <p className="text-xs text-gray-400 mt-0.5">{formatDateRange(entry)}</p>
+                        <p className="text-xs text-ink-dim mt-0.5">{formatDateRange(entry)}</p>
                       )}
                       {entry.gpa && (
-                        <p className="text-xs text-gray-500 mt-0.5">GPA: {entry.gpa}</p>
+                        <p className="text-xs text-ink-soft mt-0.5">GPA: {entry.gpa}</p>
                       )}
                     </div>
                     <div className="flex shrink-0 gap-2">
                       <button
                         onClick={() => startEdit(entry)}
-                        className="rounded-md border border-gray-300 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50"
+                        className="rounded-md border border-rim bg-surface px-3 py-1.5 text-xs font-medium text-ink-soft hover:bg-raised"
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => handleDelete(entry.id)}
-                        className="rounded-md border border-red-200 bg-white px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50"
+                        className="rounded-md border border-bad/20 bg-surface px-3 py-1.5 text-xs font-medium text-bad hover:bg-bad-dim"
                       >
                         Delete
                       </button>
@@ -221,8 +221,8 @@ export default function EducationPage() {
 
           {/* Add form */}
           {showAddForm && (
-            <div className="bg-white rounded-lg shadow-sm border border-blue-300 p-5">
-              <h3 className="text-sm font-semibold text-gray-700 mb-4">Add Education</h3>
+            <div className="bg-surface rounded-lg shadow-sm border border-brand p-5">
+              <h3 className="text-sm font-semibold text-ink-soft mb-4">Add Education</h3>
               <EducationForm
                 form={addForm}
                 currentChecked={addCurrent}
@@ -259,36 +259,36 @@ function EducationForm({ form, currentChecked, onSubmit, onCancel, submitLabel }
     <form onSubmit={onSubmit} className="space-y-4">
       {/* School */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          School <span className="text-red-500">*</span>
+        <label className="block text-sm font-medium text-ink-soft mb-1">
+          School <span className="text-bad">*</span>
         </label>
         <input
           {...register("school", { required: "School is required" })}
           type="text"
           placeholder="Massachusetts Institute of Technology"
-          className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          className="w-full rounded-md border border-rim bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-dim shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
         />
-        {errors.school && <p className="mt-1 text-xs text-red-600">{errors.school.message}</p>}
+        {errors.school && <p className="mt-1 text-xs text-bad">{errors.school.message}</p>}
       </div>
 
       {/* Degree & Field */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Degree</label>
+          <label className="block text-sm font-medium text-ink-soft mb-1">Degree</label>
           <input
             {...register("degree")}
             type="text"
             placeholder="Bachelor of Science"
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="w-full rounded-md border border-rim bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-dim shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Field of Study</label>
+          <label className="block text-sm font-medium text-ink-soft mb-1">Field of Study</label>
           <input
             {...register("field")}
             type="text"
             placeholder="Computer Science"
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="w-full rounded-md border border-rim bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-dim shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
           />
         </div>
       </div>
@@ -296,22 +296,22 @@ function EducationForm({ form, currentChecked, onSubmit, onCancel, submitLabel }
       {/* Dates */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+          <label className="block text-sm font-medium text-ink-soft mb-1">Start Date</label>
           <input
             {...register("startDate")}
             type="text"
             placeholder="YYYY-MM"
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="w-full rounded-md border border-rim bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-dim shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">End Date</label>
+          <label className="block text-sm font-medium text-ink-soft mb-1">End Date</label>
           <input
             {...register("endDate")}
             type="text"
             placeholder="YYYY-MM"
             disabled={currentChecked}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:bg-gray-50 disabled:text-gray-400"
+            className="w-full rounded-md border border-rim bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-dim shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand disabled:bg-raised disabled:text-ink-dim"
           />
         </div>
       </div>
@@ -322,32 +322,32 @@ function EducationForm({ form, currentChecked, onSubmit, onCancel, submitLabel }
           {...register("current")}
           id="edu-current"
           type="checkbox"
-          className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+          className="h-4 w-4 rounded border-rim text-brand focus:ring-brand"
         />
-        <label htmlFor="edu-current" className="text-sm text-gray-700">
+        <label htmlFor="edu-current" className="text-sm text-ink-soft">
           Currently attending
         </label>
       </div>
 
       {/* GPA */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">GPA</label>
+        <label className="block text-sm font-medium text-ink-soft mb-1">GPA</label>
         <input
           {...register("gpa")}
           type="text"
           placeholder="3.8"
-          className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          className="w-full rounded-md border border-rim bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-dim shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
         />
       </div>
 
       {/* Description */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+        <label className="block text-sm font-medium text-ink-soft mb-1">Description</label>
         <textarea
           {...register("description")}
           rows={3}
           placeholder="Honours, activities, relevant coursework..."
-          className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 resize-y"
+          className="w-full rounded-md border border-rim bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-dim shadow-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand resize-y"
         />
       </div>
 
@@ -356,17 +356,17 @@ function EducationForm({ form, currentChecked, onSubmit, onCancel, submitLabel }
         <button
           type="button"
           onClick={onCancel}
-          className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          className="rounded-md border border-rim bg-surface px-4 py-2 text-sm font-medium text-ink-soft hover:bg-raised"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={isSubmitting}
-          className="inline-flex items-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 disabled:opacity-60"
+          className="inline-flex items-center gap-2 rounded-md bg-brand px-4 py-2 text-sm font-medium text-brand-fg shadow-sm hover:bg-brand-h disabled:opacity-60"
         >
           {isSubmitting && (
-            <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+            <span className="h-4 w-4 animate-spin rounded-full border-2 border-brand-fg border-t-transparent" />
           )}
           {submitLabel}
         </button>

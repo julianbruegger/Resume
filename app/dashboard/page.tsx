@@ -30,44 +30,44 @@ export default function DashboardPage() {
   const userName = session?.user?.name?.split(" ")[0] ?? "there";
 
   const stats = [
-    { label: "Education", count: counts.education, icon: GraduationCap, color: "bg-blue-50 text-blue-600" },
-    { label: "Experience", count: counts.experience, icon: Briefcase, color: "bg-green-50 text-green-600" },
-    { label: "Certifications", count: counts.certs, icon: Award, color: "bg-yellow-50 text-yellow-600" },
-    { label: "Volunteering", count: counts.volunteering, icon: Heart, color: "bg-pink-50 text-pink-600" },
+    { label: "Education", count: counts.education, icon: GraduationCap, color: "bg-brand-dim text-brand" },
+    { label: "Experience", count: counts.experience, icon: Briefcase, color: "bg-exp-dim text-exp" },
+    { label: "Certifications", count: counts.certs, icon: Award, color: "bg-cert-dim text-cert" },
+    { label: "Volunteering", count: counts.volunteering, icon: Heart, color: "bg-vol-dim text-vol" },
   ];
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">
+        <h1 className="text-2xl font-bold text-ink">
           {session ? `Welcome back, ${userName}!` : "Welcome!"}
         </h1>
-        <p className="text-gray-500 mt-1">Here&apos;s an overview of your resume progress.</p>
+        <p className="text-ink-soft mt-1">Here&apos;s an overview of your resume progress.</p>
       </div>
 
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         {stats.map(({ label, count, icon: Icon, color }) => (
-          <div key={label} className="bg-white rounded-xl border border-gray-200 shadow-sm p-5 flex flex-col gap-3">
+          <div key={label} className="bg-surface rounded-xl border border-rim shadow-sm p-5 flex flex-col gap-3">
             <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${color}`}>
               <Icon className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900">{count}</p>
-              <p className="text-sm text-gray-500">{label}</p>
+              <p className="text-2xl font-bold text-ink">{count}</p>
+              <p className="text-sm text-ink-soft">{label}</p>
             </div>
           </div>
         ))}
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5 flex items-center gap-4">
-        <div className="w-10 h-10 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center">
+      <div className="bg-surface rounded-xl border border-rim shadow-sm p-5 flex items-center gap-4">
+        <div className="w-10 h-10 rounded-lg bg-tpl-dim text-tpl flex items-center justify-center">
           <Palette className="h-5 w-5" />
         </div>
         <div className="flex-1">
-          <p className="text-sm text-gray-500">Current Template</p>
-          <p className="text-base font-semibold text-gray-900 capitalize">{template}</p>
+          <p className="text-sm text-ink-soft">Current Template</p>
+          <p className="text-base font-semibold text-ink capitalize">{template}</p>
         </div>
-        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-700 capitalize">
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-tpl-dim text-tpl capitalize">
           {template}
         </span>
       </div>
@@ -75,14 +75,14 @@ export default function DashboardPage() {
       <div className="flex flex-wrap gap-3">
         <Link
           href="/dashboard/templates"
-          className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2.5 rounded-lg transition-colors duration-150"
+          className="inline-flex items-center gap-2 bg-brand hover:bg-brand-h text-brand-fg text-sm font-medium px-4 py-2.5 rounded-lg transition-colors duration-150"
         >
           <Palette className="h-4 w-4" />
           View Templates
         </Link>
         <Link
           href="/dashboard/export"
-          className="inline-flex items-center gap-2 bg-white hover:bg-gray-50 text-gray-700 text-sm font-medium px-4 py-2.5 rounded-lg border border-gray-200 transition-colors duration-150"
+          className="inline-flex items-center gap-2 bg-surface hover:bg-raised text-ink text-sm font-medium px-4 py-2.5 rounded-lg border border-rim transition-colors duration-150"
         >
           <Download className="h-4 w-4" />
           Export Resume
